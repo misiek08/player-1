@@ -4,7 +4,7 @@ package com.longtailvideo.plugins.flow
     import com.gskinner.motion.*;
     import com.gskinner.motion.easing.*;
     import com.jeroenwijering.events.*;
-    import com.jeroenwijering.parsers.*;
+	import com.jeroenwijering.parsers.*;
     import com.wessite.coverflow.*;
     import flash.display.*;
     import flash.events.*;
