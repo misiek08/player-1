@@ -1,4 +1,3 @@
-Testing the git.
 The JW Player is free for non-commerical use.  To buy a license for commercial use, please visit 
 https://www.longtailvideo.com/players/order.
 
