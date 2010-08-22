@@ -4,7 +4,7 @@ package com.longtailvideo.plugins.flow
     import com.gskinner.motion.*;
     import com.gskinner.motion.easing.*;
     import com.jeroenwijering.events.*;
-	import com.jeroenwijering.parsers.*;
+    import com.jeroenwijering.parsers.*;
     import com.wessite.coverflow.*;
     import flash.display.*;
     import flash.events.*;
@@ -30,7 +30,7 @@ package com.longtailvideo.plugins.flow
 
         public function Flow()
         {
-            this.config = {size:150, defaultcover:"http://p.d.plxe.tv/img/defaultc.jpg", xposition:0, yposition:0, coverwidth:150, coverheight:"auto", covergap:40, coverangle:60, coverdepth:150, coveroffset:60, focallength:500, opacitydecrease:0.1, reflectionopacity:0.3, reflectionratio:155, reflectionoffset:0, showtext:true, textstyle:"div{color:#f1f1f1; textAlign:center; fontFamily:Arial Rounded MT Bold;} h1{fontSize:13; leading:5;} h2{fontSize:11;}", textoffset:0, tweentime:0.8, framerate:60, rotatedelay:0, controlbaricon:false, buffericon:false, file:undefined, backgroundcolor:undefined};
+            this.config = {size:150, defaultcover:"http://p.d.plxe.tv/img/default.jpg", xposition:0, yposition:0, coverwidth:150, coverheight:"auto", covergap:40, coverangle:60, coverdepth:150, coveroffset:60, focallength:500, opacitydecrease:0.1, reflectionopacity:0.3, reflectionratio:155, reflectionoffset:0, showtext:true, textstyle:"div{color:#f1f1f1; textAlign:center; fontFamily:Arial Rounded MT Bold;} h1{fontSize:13; leading:5;} h2{fontSize:11;}", textoffset:0, tweentime:0.8, framerate:60, rotatedelay:0, controlbaricon:false, buffericon:false, onidle:"show", onpaused:"show", onplaying:"show", oncompleted:"show", file:undefined, backgroundcolor:undefined};
             return;
         }// end function
 

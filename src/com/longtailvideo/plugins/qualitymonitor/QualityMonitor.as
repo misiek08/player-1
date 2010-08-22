@@ -86,10 +86,10 @@ public class QualityMonitor extends Sprite implements IPlugin {
             lvl += ' (' + arr[idx]['bitrate'] + 'kbps, ' + arr[idx]['width'] + 'px)';
         } catch (e:Error) {}
         _field.htmlText = 
-            '<font color="#FF0000"><b>bandwidth:</b> ' + _player.config['bandwidth'] + ' kbps<br/></font>' +
-            '<font color="#00FF00"><b>dropped frames:</b> ' + 0 + '<br/></font>' +
-            '<font color="#FFFFFF"><b>level:</b> ' + lvl + '<br/></font>' +
-            '<font color="#0000FF"><b>width:</b> '+ _player.config['width'] + ' pixels</font>';
+            '<font color="#FF0000"><b>Available Bandwidth:</b> ' + _player.config['bandwidth'] + ' kbps<br/></font>' +
+            '<font color="#00FF00"><b># of Dropped Frames</b> ' + 0 + '<br/></font>' +
+            '<font color="#FFFFFF"><b>Current Streaming Level</b> ' + lvl + '<br/></font>' +
+            '<font color="#0000FF"><b>Width:</b> '+ _player.config['width'] + ' pixels</font>';
         _lines[0].spark(_player.config['bandwidth']);
         _lines[1].spark(drp);
         _lines[2].spark(arr.length - idx);

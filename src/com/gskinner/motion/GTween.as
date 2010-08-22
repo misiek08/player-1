@@ -31,10 +31,10 @@ package com.gskinner.motion
         public var onComplete:Function;
         public static var pauseAll:Boolean = false;
         public static var defaultEase:Function = expoEaseOut;
-        public static var shape:Shape;
+		public static var shape:Shape;
 		public static var time:Number;
 		public static var tickList:Dictionary = new Dictionary(true);
-		public static var gcLockList:Dictionary = new Dictionary(false);
+        public static var gcLockList:Dictionary = new Dictionary(false);
 
         public function GTween(param1:Object = null, param2:Number = 1, param3:Object = null, param4:Object = null)
         {
@@ -315,7 +315,7 @@ package com.gskinner.motion
             return param1 == 1 ? (1) : (1 - Math.pow(2, -10 * param1));
         }// end function
 
-		public static function staticInit() : void
+        public static function staticInit() : void
         {
             var _loc_1:* = new Shape();
             shape = new Shape();
@@ -324,7 +324,7 @@ package com.gskinner.motion
             return;
         }// end function
 
-		public static function staticTick(event:Event) : void
+        public static function staticTick(event:Event) : void
         {
             var _loc_4:Object = null;
             var _loc_5:GTween = null;

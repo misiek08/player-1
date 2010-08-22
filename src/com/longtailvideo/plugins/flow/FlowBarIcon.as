@@ -1,4 +1,4 @@
-package com.longtailvideo.plugins.flow
+package  com.longtailvideo.plugins.flow
 {
     import flash.display.*;
 
