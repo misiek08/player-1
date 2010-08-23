@@ -33,7 +33,9 @@ package com.longtailvideo.jwplayer.view {
 		protected var fullscreen:ContextMenuItem;
 		/** Stretching menu item **/
 		protected var stretching:ContextMenuItem;
-	
+		/** Report play issue menu item **/
+		protected var reportpissue:ContextMenuItem
+		
 		/** Constructor. **/
 		public function RightclickMenu(player:IPlayer, clip:MovieClip) {
 			_player = player;
@@ -46,25 +48,29 @@ package com.longtailvideo.jwplayer.view {
 		/** Add an item to the contextmenu. **/
 		protected function addItem(itm:ContextMenuItem, fcn:Function):void {
 			itm.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, fcn);
-			itm.separatorBefore = true;
+			itm.separatorBefore = false;
 			context.customItems.push(itm);
 		}
 
 		/** Initialize the rightclick menu. **/
 		public function initializeMenu():void {
 			setAboutText();
+			setReportpissueText();
 			addItem(about, aboutHandler);
+			addItem(reportpissue, reportpissueHandler);
 			try {
 				fullscreen = new ContextMenuItem('Fullscreen...');
 				addItem(fullscreen, fullscreenHandler);
 			} catch (err:Error) {
 			}
+				/** Stretching and debugger part.
 			stretching = new ContextMenuItem('Stretching is ' + _player.config.stretching + '...');
 			addItem(stretching, stretchHandler);
 			if (Capabilities.isDebugger == true || _player.config.debug != Logger.NONE) {
 				debug = new ContextMenuItem('Logging to ' + _player.config.debug + '...');
 				addItem(debug, debugHandler);
 			}
+			**/
 		}
 		
 		protected function setAboutText():void {
@@ -75,7 +81,15 @@ package com.longtailvideo.jwplayer.view {
 		protected function aboutHandler(evt:ContextMenuEvent):void {
 			navigateToURL(new URLRequest('http://www.plxe.tv'), '_blank');
 		}
-
+		
+		/** report play issue part **/
+		protected function setReportpissueText():void{
+			reportpissue =  new ContextMenuItem('Report play issue');
+	}
+		protected function reportpissueHandler(evt:ContextMenuEvent):void {
+			navigateToURL(new URLRequest('http://www.plxe.tv/reportpissue?'), '_blank'); 
+		}
+		
 		/** change the debug system. **/
 		protected function debugHandler(evt:ContextMenuEvent):void {
 			var arr:Array = new Array(Logger.NONE, Logger.ARTHROPOD, Logger.CONSOLE, Logger.TRACE);
@@ -85,7 +99,7 @@ package com.longtailvideo.jwplayer.view {
 			setCookie('debug', arr[idx]);
 			_player.config.debug = arr[idx];
 		}
-
+		
 		/** Toggle the fullscreen mode. **/
 		protected function fullscreenHandler(evt:ContextMenuEvent):void {
 			dispatchEvent(new ViewEvent(ViewEvent.JWPLAYER_VIEW_FULLSCREEN, !_player.config.fullscreen));
