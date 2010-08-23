@@ -56,14 +56,14 @@ package com.longtailvideo.jwplayer.view {
 		public function initializeMenu():void {
 			setAboutText();
 			setReportpissueText();
-			addItem(about, aboutHandler);
 			addItem(reportpissue, reportpissueHandler);
+			addItem(about, aboutHandler);
+			/** Stretching and debugger part.
 			try {
 				fullscreen = new ContextMenuItem('Fullscreen...');
 				addItem(fullscreen, fullscreenHandler);
 			} catch (err:Error) {
 			}
-				/** Stretching and debugger part.
 			stretching = new ContextMenuItem('Stretching is ' + _player.config.stretching + '...');
 			addItem(stretching, stretchHandler);
 			if (Capabilities.isDebugger == true || _player.config.debug != Logger.NONE) {
