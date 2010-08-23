@@ -31,7 +31,7 @@ package com.longtailvideo.jwplayer.model {
 		protected var _smoothing:Boolean 	= true;
 		
 		//TODO: Move to ENUM class
-		protected var _stretching:String 	= "fill";
+		protected var _stretching:String 	= "exactfit";
 		protected var _volume:Number 		= 100;
 
 		protected var _backcolor:Color		= null;
