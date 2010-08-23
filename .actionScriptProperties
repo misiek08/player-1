@@ -30,8 +30,6 @@
   </compiler>
   <applications>
     <application path="com/longtailvideo/jwplayer/player/Player.as"/>
-    <application path="com/longtailvideo/plugins/flow/Flow.as"/>
-    <application path="com/longtailvideo/plugins/qualitymonitor/QualityMonitor.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>
