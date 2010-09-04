@@ -6,6 +6,7 @@ package com.longtailvideo.jwplayer.media {
 	import com.longtailvideo.jwplayer.model.PlayerConfig;
 	import com.longtailvideo.jwplayer.model.PlaylistItem;
 	import com.longtailvideo.jwplayer.player.PlayerState;
+	import com.longtailvideo.jwplayer.utils.Configger;
 	import com.longtailvideo.jwplayer.utils.NetClient;
 	
 	import flash.events.*;
@@ -51,6 +52,11 @@ package com.longtailvideo.jwplayer.media {
 		private var _bandwidthDelay:Number = 2000;
 		/** Bandwidth timeout id **/
 		private var _bandwidthTimeout:uint;
+		/** Offset for DVR streaming. **/
+		private var _dvroffset:Number = 0;
+		/** Loaded amount for DVR streaming. **/
+		private var _dvrloaded:Number = 0;
+		
 		
 		/** Constructor; sets up the connection and display. **/
 		public function HTTPMediaProvider() {
@@ -93,6 +99,7 @@ package com.longtailvideo.jwplayer.media {
 			error(evt.text);
 		}
 
+
 		/** Bandwidth is checked as long the stream hasn't completed loading. **/
 		private function checkBandwidth(lastLoaded:Number):void {
 			var currentLoaded:Number = _stream.bytesLoaded;
@@ -101,6 +108,7 @@ package com.longtailvideo.jwplayer.media {
 			if (currentLoaded < _stream.bytesTotal) {
 				if (bandwidth > 0) {
 					config.bandwidth = bandwidth;
+					Configger.saveCookie('bandwidth',bandwidth);
 					var obj:Object = {bandwidth:bandwidth};
 					if (item.duration > 0) {
 						obj.bitrate = Math.ceil(_stream.bytesTotal / 1024 * 8 / item.duration);
@@ -155,9 +163,10 @@ package com.longtailvideo.jwplayer.media {
 			}
 			url = encodeURI(url);
 			if (_mp4 || _startparam == 'starttime') {
-				off = _timeoffset;
+				off = Math.ceil(_timeoffset*100)/100;
+				_mp4 = true;
 			}
-			if (!_mp4 || off > 0) {
+			if ((!_mp4 || off > 0) && !getConfigProperty('dvr')) {
 				url = getURLConcat(url, _startparam, off);
 			}
 			if (config['token'] || item['token']) {
@@ -174,6 +183,13 @@ package com.longtailvideo.jwplayer.media {
 			} else {
 				return url + '?' + prm + '=' + val;
 			}
+		}
+
+		private function initDVR(pos:Number):void { 
+			_dvroffset = pos;
+			_dvrloaded = new Date().valueOf() - config.bufferlength * 1000;
+			resize(_width, _height);
+			sendMediaEvent(MediaEvent.JWPLAYER_MEDIA_META, {metadata: {dvroffset:_dvroffset}});
 		}
 
 
@@ -246,11 +262,16 @@ package com.longtailvideo.jwplayer.media {
 
 		/** Interval for the position progress **/
 		protected function positionInterval():void {
-			var pos:Number = Math.round(_stream.time * 10) / 10; 
+			var pos:Number = Math.round(_stream.time * 100) / 100;
 			var percentoffset:Number;
 			if (_mp4) {
 				pos += _timeoffset;
 			}
+			if(getConfigProperty('dvr')) {
+				if(!_dvroffset && pos) { initDVR(pos); }
+				pos -= _dvroffset;
+				if(_dvrloaded) { item.duration = (new Date().valueOf()-_dvrloaded)/1000; }
+			} 
 			
 			var bufferFill:Number;
 			if (item.duration > 0 && _stream && _stream.bytesTotal > 0) {
@@ -270,7 +291,7 @@ package com.longtailvideo.jwplayer.media {
 				_bandwidthTimeout = setTimeout(checkBandwidth, _bandwidthDelay, _stream.bytesLoaded);
 			}
 
-			if (bufferFill < 50 && state == PlayerState.PLAYING) {
+			if (bufferFill < 50 && state == PlayerState.PLAYING && item.duration - pos > _stream.bufferTime) {
 				_bufferFull = false;
 				_stream.pause();
 				setState(PlayerState.BUFFERING);
@@ -283,7 +304,8 @@ package com.longtailvideo.jwplayer.media {
 				if ((bufferPercent + percentoffset) == 100 && _bufferingComplete == false) {
 					_bufferingComplete = true;
 				}
-				sendBufferEvent(bufferPercent, _timeoffset, {loaded:_stream.bytesLoaded, total:_stream.bytesTotal, offset:_timeoffset});
+				sendBufferEvent(bufferPercent, _timeoffset,
+					{loaded:_stream.bytesLoaded, total:_stream.bytesTotal, offset:_timeoffset});
 			}
 			
 			if (state != PlayerState.PLAYING) {
@@ -317,7 +339,7 @@ package com.longtailvideo.jwplayer.media {
 			var off:Number = getOffset(pos);
 			super.seek(pos);
 			clearInterval(_positionInterval);
-			_positionInterval = undefined;
+			_positionInterval = undefined; 
 			if (off < _byteoffset || off >= _byteoffset + _stream.bytesLoaded) {
 				_timeoffset = _position = getOffset(pos, true);
 				_byteoffset = off;
@@ -326,7 +348,9 @@ package com.longtailvideo.jwplayer.media {
 				if (state == PlayerState.PAUSED) {
 					_stream.resume();
 				}
-				if (_mp4) {
+				if(getConfigProperty('dvr')) {
+					_stream.seek(pos + _dvroffset - config.bufferlength);
+				} else if (_mp4) {
 					_stream.seek(getOffset(_position - _timeoffset, true));
 				} else {
 					_stream.seek(getOffset(_position, true));
@@ -340,7 +364,9 @@ package com.longtailvideo.jwplayer.media {
 		protected function statusHandler(evt:NetStatusEvent):void {
 			switch (evt.info.code) {
 				case "NetStream.Play.Stop":
-					complete();
+					if(!getConfigProperty('dvr')) {
+						complete();
+					}
 					break;
 				case "NetStream.Play.StreamNotFound":
 					stop();
@@ -353,7 +379,7 @@ package com.longtailvideo.jwplayer.media {
 					}
 					break;
 			}
-			sendMediaEvent(MediaEvent.JWPLAYER_MEDIA_META, {metadata: {status: evt.info.code}});
+			// sendMediaEvent(MediaEvent.JWPLAYER_MEDIA_META, {metadata: {status: evt.info.code}});
 		}
 
 
@@ -366,7 +392,7 @@ package com.longtailvideo.jwplayer.media {
 			}
 			clearInterval(_positionInterval);
 			_positionInterval = undefined;
-			_position = _byteoffset = _timeoffset = 0;
+			_position = _byteoffset = _timeoffset = _dvroffset = _dvrloaded = 0;
 			_keyframes = undefined;
 			_bandwidthChecked = false;
 			_meta = false;
@@ -375,13 +401,7 @@ package com.longtailvideo.jwplayer.media {
 		
 		override protected function complete():void {
 			if (state != PlayerState.IDLE) {
-				clearInterval(_positionInterval);
-				_positionInterval = undefined;
-				_position = _byteoffset = _timeoffset = 0;
-				_keyframes = undefined;
-				_bandwidthChecked = false;
-				_meta = false;
-				super.stop();
+				stop();
 				sendMediaEvent(MediaEvent.JWPLAYER_MEDIA_COMPLETE);
 			}
 		}
