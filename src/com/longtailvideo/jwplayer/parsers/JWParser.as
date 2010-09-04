@@ -7,7 +7,7 @@ package com.longtailvideo.jwplayer.parsers {
 	public class JWParser {
 
 		/** Prefix for the JW Player namespace. **/
-		private static const PREFIX:String = 'jwplayer';
+		private static const PREFIX:String = 'player';
 
 		/** File extensions of all supported mediatypes. **/
 		private static var extensions:Object = {
