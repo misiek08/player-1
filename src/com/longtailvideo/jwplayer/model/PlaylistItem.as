@@ -15,7 +15,7 @@ package com.longtailvideo.jwplayer.model {
 		public var mediaid:String		= "";
 		public var tags:String			= "";
 		public var title:String			= "";
-		public var provider:String		= "";
+		public var provider:String		= "http";
 		
 		protected var _file:String			= "";
 		protected var _streamer:String		= "";
