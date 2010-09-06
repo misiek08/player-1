@@ -370,7 +370,7 @@ package com.longtailvideo.jwplayer.media {
 					break;
 				case "NetStream.Play.StreamNotFound":
 					stop();
-					error('Video not found: ' + item.file);
+					error('Error #1006');
 					break;
 				case 'NetStream.Buffer.Full':
 					if (!_bufferFull) {

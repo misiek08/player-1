@@ -63,7 +63,7 @@ package com.longtailvideo.jwplayer.media {
 			try {
 				Draw.smooth(_loader.content as Bitmap);
 			} catch (e:Error) {
-				Logger.log("Could not smooth image file: " + e.message);
+				Logger.log("Error #1007");
 			}
 			sendMediaEvent(MediaEvent.JWPLAYER_MEDIA_META, {metadata: {height: evt.target.height, width: evt.target.width}});
 			sendMediaEvent(MediaEvent.JWPLAYER_MEDIA_BUFFER_FULL);

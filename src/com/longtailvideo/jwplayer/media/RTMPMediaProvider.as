@@ -231,7 +231,7 @@ package com.longtailvideo.jwplayer.media {
 			try {
 				_connection.connect(item.streamer);
 			} catch(e:Error) {
-				error("Could not connect to streamer: " + e.message);
+				error("Error #1008");
 			}
 		}
 		
@@ -407,7 +407,7 @@ package com.longtailvideo.jwplayer.media {
 					try {
 						_stream.play(getID(item.file),0,-1);
 					} catch(e:Error) {
-						error("Could not play DVR stream: " + e.message);
+						error("Error #1009:" + e.message);
 					}
 				}
 				if(_timeoffset > 0) {
@@ -420,7 +420,7 @@ package com.longtailvideo.jwplayer.media {
 					try {
                     	_stream.play(getID(item.file));
 					} catch(e:Error) {
-						Logger.log("Error: " + e.message);
+						Logger.log("Error #1010:" + e.message);
 					}
                 }
                 if (_timeoffset > 0 || state == PlayerState.IDLE) {

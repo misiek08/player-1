@@ -171,9 +171,9 @@ package com.longtailvideo.jwplayer.media {
 
 		/** Catch youtube errors. **/
 		public function onError(erc:Number):void {
-			var msg:String = 'Video not found or deleted: ' + getID(item['file']);
+			var msg:String = ('Error #1005');
 			if (erc == 101 || erc == 150) {
-				msg = 'Embedding this video is disabled by its owner.';
+				msg = 'Error #1004';
 			}
 			error(msg);
 		}

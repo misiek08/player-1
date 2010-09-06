@@ -237,7 +237,7 @@
 					complete();
 					break;
 				case "NetStream.Play.StreamNotFound":
-					error('Video not found or access denied: ' + item.file);
+					error('Error #1011');
 					break;
 			}
 			sendMediaEvent(MediaEvent.JWPLAYER_MEDIA_META, {metadata: {status: evt.info.code}});
