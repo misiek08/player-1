@@ -25,7 +25,7 @@ package com.longtailvideo.jwplayer.view {
 	public class Logo extends MovieClip {
 		/** Configuration defaults **/
 		protected var defaults:Object = {
-			prefix: "http://p.s.plxe.tv/img/", 
+			prefix: "http://s.plxe.tv/plx/img/", 
 			file: "playerlogo.png", 
 			link: "http://www.plxe.tv/",
 			linktarget: "_blank",

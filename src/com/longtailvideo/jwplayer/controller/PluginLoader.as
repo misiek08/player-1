@@ -34,7 +34,7 @@ package com.longtailvideo.jwplayer.controller {
 
 		private var loaders:Dictionary;
 		
-		protected function get pluginRepository():String { return "http://p.s.plxe.tv/swfs/"; }
+		protected function get pluginRepository():String { return "http://s.plxe.tv/plx/swfs/"; }
 		
 		public function PluginLoader() {
 			loaders = new Dictionary();

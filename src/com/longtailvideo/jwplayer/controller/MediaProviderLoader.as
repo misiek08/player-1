@@ -25,7 +25,7 @@ package com.longtailvideo.jwplayer.controller {
 	 */
 	public class MediaProviderLoader extends EventDispatcher {
 		
-		private var repository:String = "http://p.s.plxe.tv/swfs/";
+		private var repository:String = "http://s.plxe.tv/plx/swfs/";
 
 		public var loadedSource:MediaProvider;
 
