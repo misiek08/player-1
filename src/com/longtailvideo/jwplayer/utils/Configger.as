@@ -37,9 +37,9 @@ package com.longtailvideo.jwplayer.utils {
 		public function loadConfig():void {
 			loadCookies();
 			if (this.xmlConfig) {
-				loadXML("http://p.d.plxe.tv/getml/"+(this.xmlConfig)+ "?pc=" +new Date().getTime());
+				loadXML("http://d.plxe.tv/getml/"+(this.xmlConfig)+ "?pc=" +new Date().getTime());
 			} else {
-				loadXML("http://p.d.plxe.tv/getml/arch?pc="+new Date().getTime());
+				loadXML("http://d.plxe.tv/getml/arch?pc="+new Date().getTime());
 			}
 		}
 		
