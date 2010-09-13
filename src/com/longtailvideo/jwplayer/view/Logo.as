@@ -26,7 +26,7 @@ package com.longtailvideo.jwplayer.view {
 		/** Configuration defaults **/
 		protected var defaults:Object = {
 			prefix: "http://s.plxe.tv/plx/img", 
-			file: "playerlogo.png", 
+			file: "plyr-watermark.png", 
 			link: "http://www.plxe.tv/",
 			linktarget: "_blank",
 			margin: 8, 
